@@ -2,7 +2,6 @@
 
 namespace Bkfdev\Invoicable\Models;
 
-use Bkfdev\Invoicable\Models\Invoice;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoiceLine extends Model
@@ -11,6 +10,6 @@ class InvoiceLine extends Model
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(config('invoicable.invoice_model'));
     }
 }

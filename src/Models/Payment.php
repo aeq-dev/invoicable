@@ -2,7 +2,6 @@
 
 namespace Bkfdev\Invoicable\Models;
 
-use Bkfdev\Invoicable\Models\Invoice;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
@@ -15,7 +14,7 @@ class Payment extends Model
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(config('invoicable.invoice_model'));
     }
 
     public function customer()

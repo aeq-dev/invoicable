@@ -2,7 +2,6 @@
 
 namespace Bkfdev\Invoicable\Models;
 
-use Bkfdev\Invoicable\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
@@ -11,7 +10,7 @@ class Card extends Model
 
     public function payments()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(config('invoicable.payment_model'));
     }
 
     public function user()

@@ -2,9 +2,7 @@
 
 namespace Bkfdev\Invoicable\Models;
 
-use Bkfdev\Invoicable\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
-use Bkfdev\Invoicable\Models\InvoiceLine;
 
 class Invoice extends Model
 {
@@ -13,12 +11,12 @@ class Invoice extends Model
 
     public function lines()
     {
-        return $this->hasMany(InvoiceLine::class);
+        return $this->hasMany(config('invoicable.invoice_line_model'));
     }
 
     public function payments()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(config('invoicable.payment_model'));
     }
 
     public function receiver()
