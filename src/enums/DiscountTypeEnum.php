@@ -1,6 +1,6 @@
 <?php
 
-namespace Bkfdev\Invoicable;
+namespace Bkfdev\Invoicable\Enums;
 
 enum DiscountTypeEnum: string
 {

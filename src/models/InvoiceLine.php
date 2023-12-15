@@ -1,15 +1,12 @@
 <?php
 
-namespace Bkfdev\Invoicable;
+namespace Bkfdev\Invoicable\Models;
 
+use Bkfdev\Invoicable\Models\Invoice;
 use Illuminate\Database\Eloquent\Model;
-use Bkfdev\Invoicable\Invoice;
-use Wildside\Userstamps\Userstamps;
 
 class InvoiceLine extends Model
 {
-    use Userstamps;
-
     protected $guarded = [];
 
     public function invoice()

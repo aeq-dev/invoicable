@@ -1,8 +1,9 @@
 <?php
 
-namespace Bkfdev\Invoicable\IsInvoicable;
+namespace Bkfdev\Invoicable;
 
-use Bkfdev\Invoicable\Invoice;
+use Bkfdev\Invoicable\Models\Invoice;
+
 
 trait IsInvoicableTrait
 {
