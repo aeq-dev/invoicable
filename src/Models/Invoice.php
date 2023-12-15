@@ -44,7 +44,7 @@ class Invoice extends Model
             'discount' => $discount,
             'total' => $tax + $discounted_amount,
         ]);
-        return $this->recalculate();
+        //return $this->recalculate();
     }
     public function addAmountInclTax($description, $quantity = 1, $price, $taxPercentage = 0, $discount = 0, $unit = 'unit')
     {
@@ -63,7 +63,7 @@ class Invoice extends Model
             'discount' => $discount,
             'total' => $tax + $discounted_amount,
         ]);
-        return $this->recalculate();
+        //return $this->recalculate();
     }
 
     public function addPayment(
@@ -93,9 +93,10 @@ class Invoice extends Model
         return $this->updateBalance();
     }
 
-    public function recalculate()
+    // Recalculate every thing from lines
+    public function recalculate1()
     {
-        /* $total = $this->lines()->sum('total');
+        $total = $this->lines()->sum('total');
         $this->discount = $this->lines()->sum('discount');
         $this->sub_total = $this->lines()->sum('sub_total');
         $this->tax = $this->lines()->sum('tax');
@@ -103,9 +104,23 @@ class Invoice extends Model
         $this->due_amount = $total;
         $this->paid_amount = 0;
         $this->save();
-        return $this; */
+        return $this;
     }
 
+    // Recalculate only total and sub total from lines
+    public function recalculate2()
+    {
+        $total = $this->lines()->sum('total');
+        $this->sub_total = $this->lines()->sum('sub_total');
+
+        $total = $total - $this->discount + $this->tax;
+        $this->total = $total;
+        $this->due_amount = $total;
+        $this->paid_amount = 0;
+
+        $this->save();
+        return $this;
+    }
     public function updateBalance()
     {
         $this->due_amount = $this->total - $this->payments()->sum('amount');
