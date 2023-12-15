@@ -1,0 +1,39 @@
+{
+    "name": "bkfdev/invoicable",
+    "type": "library",
+    "description": "Easy invoice generation using Laravel Eloquent",
+    "keywords": [
+        "Eloquent",
+        "invoicable",
+        "invoice",
+        "Laravel",
+        "laravel-invoicable",
+        "payments",
+        "Bkfdev"
+    ],
+    "homepage": "https://github.com/aeq-dev/invoicable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bkf",
+            "email": "akaderb@gmail.com"
+        }
+    ],   
+    "autoload": {
+        "psr-4": {
+            "Bkfdev\\Invoicable\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bkfdev\\Invoicable\\": "tests"
+        }
+    },    
+    "extra": {       
+        "laravel": {
+            "providers": [
+                "Bkfdev\\Invoicable\\InvoicableServiceProvider"
+            ]
+        }
+    }    
+}
