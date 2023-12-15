@@ -2,11 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Bkfdev\Invoicable\Enums\InvoiceTypeEnum;
-use Bkfdev\Invoicable\Enums\DiscountTypeEnum;
 use Illuminate\Database\Migrations\Migration;
-use Bkfdev\Invoicable\Enums\InvoiceStatusEnum;
-use Bkfdev\Invoicable\Enums\PaymentMethodsEnum;
 
 class CreateInvoicesTables extends Migration
 {
@@ -33,8 +29,8 @@ class CreateInvoicesTables extends Migration
             $table->timestamp('locked_at')->nullable();
             $table->text('note')->nullable();
 
-            $table->string('type')->default(InvoiceTypeEnum::INVOICE->value);
-            $table->string('status')->default(InvoiceStatusEnum::UNPAID->value);
+            $table->string('type')->nullable();
+            $table->string('status')->nullable();
 
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedBigInteger('sender_id')->nullable();
@@ -78,12 +74,12 @@ class CreateInvoicesTables extends Migration
             $table->string('description');
 
             $table->float('amount')->default(0);
-            $table->string('method')->default(PaymentMethodsEnum::CASH_ON_DELIVERY);
+            $table->string('method')->nullable();
             $table->string('cheque_number')->nullable();
             $table->date('cheque_date')->nullable();
 
             $table->string('transaction_id')->nullable();
-            $table->date('payment_date')->default(now());
+            $table->date('payment_date')->nullable();
 
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('card_id')->nullable();

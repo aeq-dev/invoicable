@@ -152,14 +152,6 @@ class Invoice extends Model implements HasMedia
 
     public function pdf(array $data = [])
     {
-        /* if (! defined('DOMPDF_ENABLE_AUTOLOAD')) {
-            define('DOMPDF_ENABLE_AUTOLOAD', false);
-        }
-
-        if (file_exists($configPath = base_path().'/vendor/dompdf/dompdf/dompdf_config.inc.php')) {
-            require_once $configPath;
-        }
- */
         $dompdf = new PDF();
         $dompdf->loadHtml($this->view($data)->render());
         $dompdf->render();
