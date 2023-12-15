@@ -1,13 +1,8 @@
-# laravel-invoicable
+# laravel Invoicable
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Total Downloads][ico-downloads]][link-downloads]
 
 Easy invoice creation for Laravel. Unlike Laravel Cashier, this package is payment gateway agnostic.
-
-If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/Bkfdev/laravel-payable-redirect-mollie).
 
 ## Structure
 
@@ -23,13 +18,13 @@ vendor/
 
 Via Composer
 
-``` bash
-$ composer require sander-van-hooft/laravel-invoicable
+```bash
+$ composer require bkfdev/invoicable
 ```
 
 Next, you must install the service provider if you work with Laravel 5.4:
 
-``` php
+```php
 // config/app.php
 'providers' => [
     ...
@@ -39,49 +34,50 @@ Next, you must install the service provider if you work with Laravel 5.4:
 
 You can publish the migration with:
 
-``` bash
+```bash
 $ php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the invoices and invoice_lines tables by running the migrations:
 
-``` bash
+```bash
 $ php artisan migrate
 ```
 
 Optionally, you can also publish the `invoicable.php` config file with:
 
-``` bash
+```bash
 $ php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="config"
 ```
 
 This is what the default config file looks like:
 
-``` php
+```php
 
 return [
-    'default_currency' => 'EUR',
-    'default_status' => 'concept',
-    'locale' => 'nl_NL',
+    'default_currency' => 'USD',
+    'default_status' => 'draft',
+    'locale' => 'en',
+    'invoice_number' => 'INV#' . date('M-y') . '-',
+    'payment_number' => 'PAY#' . date('M-y') . '-',
 ];
 ```
 
 If you'd like to override the design of the invoice blade view and pdf, publish the view:
 
-``` bash
+```bash
 $ php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="views"
 ```
 
 You can now edit `receipt.blade.php` in `<project_root>/resources/views/invoicable/receipt.blade.php` to match your style.
 
-
 ## Usage
 
-__Money figures are in cents!__
+**Money figures are in cents!**
 
 Add the invoicable trait to the Eloquent model which needs to be invoiced (typically an Order model):
 
-``` php
+```php
 use Illuminate\Database\Eloquent\Model;
 use Bkfdev\Invoicable\IsInvoicable\IsInvoicableTrait;
 
@@ -93,7 +89,7 @@ class Order extends Model
 
 Now you can create invoices for an Order:
 
-``` php
+```php
 $order = Order::first();
 $invoice = $order->invoices()->create([]);
 
@@ -139,14 +135,13 @@ Invoice::findByReferenceOrFail($reference);
 $invoice->invoicable() // Access the related model
 ```
 
-
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Testing
 
-``` bash
+```bash
 $ composer test
 ```
 
@@ -160,7 +155,7 @@ If you discover any security related issues, please email info@Bkfdev.com instea
 
 ## Credits
 
-- [Sander van Hooft][link-author]
+- [Abdelkader Boukhelf][link-author]
 - [All Contributors][link-contributors]
 - Inspired by [Laravel Cashier](https://github.com/laravel/cashier)'s invoices.
 
@@ -168,13 +163,6 @@ If you discover any security related issues, please email info@Bkfdev.com instea
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/Bkfdev/laravel-invoicable/master.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/sander-van-hooft/laravel-invoicable.svg?style=flat-square
-
-[link-packagist]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-travis]: https://travis-ci.org/Bkfdev/laravel-invoicable
-[link-downloads]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-author]: https://github.com/Bkfdev
+[link-author]: https://github.com/aeq-dev
 [link-contributors]: ../../contributors
