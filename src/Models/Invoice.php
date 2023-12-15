@@ -97,7 +97,7 @@ class Invoice extends Model
     {
         $total = $this->lines()->sum('total');
         $this->discount = $this->lines()->sum('discount');
-        $this->sub_total = $this->lines()->sum('$sub_total');
+        $this->sub_total = $this->lines()->sum('sub_total');
         $this->tax = $this->lines()->sum('tax');
         $this->total = $total;
         $this->due_amount = $total;
