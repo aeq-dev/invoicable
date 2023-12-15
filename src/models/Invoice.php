@@ -2,24 +2,13 @@
 
 namespace Bkfdev\Invoicable\Models;
 
-use PDF;
 use App\Models\User;
-use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Support\Facades\View;
 use Bkfdev\Invoicable\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Bkfdev\Invoicable\Models\InvoiceLine;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Bkfdev\Invoicable\Enums\InvoiceTypeEnum;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Bkfdev\Invoicable\Enums\InvoiceStatusEnum;
-use Symfony\Component\HttpFoundation\Response;
 
-class Invoice extends Model implements HasMedia
+class Invoice extends Model
 {
-    use InteractsWithMedia;
-
-
     protected $guarded = [];
     protected $with = ['sender', 'receiver'];
 
@@ -27,16 +16,6 @@ class Invoice extends Model implements HasMedia
     {
         return $this->hasMany(InvoiceLine::class);
     }
-
-    protected $dates = [
-        'invoice_date' => 'date:Y-m-d',
-        'due_date' => 'date:Y-m-d',
-    ];
-
-    protected $casts = [
-        'status' => InvoiceStatusEnum::class,
-        'type' => InvoiceTypeEnum::class,
-    ];
 
     public function payments()
     {
@@ -135,40 +114,8 @@ class Invoice extends Model implements HasMedia
         $this->due_amount = $this->total - $this->payments()->sum('amount');
         $this->paid_amount = $this->total - $this->due_amount;
         $this->save();
-        if ($this->due_amount <= 0)
-            $this->update(['status' => InvoiceStatusEnum::PAID]);
         return $this;
     }
-    public function view(array $data = [])
-    {
-        return View::make('invoicable::receipt', array_merge($data, [
-            'invoice' => $this,
-            'moneyFormatter' => new MoneyFormatter(
-                $this->currency,
-                config('invoicable.locale')
-            ),
-        ]));
-    }
-
-    public function pdf(array $data = [])
-    {
-        $dompdf = new PDF();
-        $dompdf->loadHtml($this->view($data)->render());
-        $dompdf->render();
-        return $dompdf->output();
-    }
-    public function download(array $data = [])
-    {
-        $filename = $this->reference . '.pdf';
-
-        return new Response($this->pdf($data), 200, [
-            'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-            'Content-Transfer-Encoding' => 'binary',
-            'Content-Type' => 'application/pdf',
-        ]);
-    }
-
     public static function findByNumber($reference)
     {
         return static::where('number', $reference)->first();
@@ -181,31 +128,16 @@ class Invoice extends Model implements HasMedia
 
     public function scopeUnpaid($query)
     {
-        return $query->where('balance', '>', 0);
+        return $query->where('due_amount', '>', 0);
     }
 
     public function scopePaid($query)
     {
-        return $query->where('balance', 0);
+        return $query->where('due_amount', '<=', 0);
     }
 
     public function scopeForReceiver($query, $id)
     {
         return $query->where('receiver_id', $id);
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->number = IdGenerator::generate([
-                'table' => 'invoices',
-                'field' => 'number',
-                'length' => 20,
-                'prefix' => config('invoicable.invoice_number'),
-                'reset_on_prefix_change' => true
-            ]);
-        });
     }
 }
