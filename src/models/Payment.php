@@ -23,9 +23,9 @@ class Payment extends Model implements HasMedia
         return $this->belongsTo(Invoice::class);
     }
 
-    public function receiver()
+    public function customer()
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(User::class, 'customer_id');
     }
 
     protected static function boot()
