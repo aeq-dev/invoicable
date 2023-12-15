@@ -19,7 +19,7 @@ vendor/
 Via Composer
 
 ```bash
-$ composer require bkfdev/invoicable
+composer require bkfdev/invoicable
 ```
 
 Next, you must install the service provider if you work with Laravel 5.4:
