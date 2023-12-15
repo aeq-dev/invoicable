@@ -95,7 +95,7 @@ class Invoice extends Model
 
     public function recalculate()
     {
-        $total = $this->lines()->sum('total');
+        /* $total = $this->lines()->sum('total');
         $this->discount = $this->lines()->sum('discount');
         $this->sub_total = $this->lines()->sum('sub_total');
         $this->tax = $this->lines()->sum('tax');
@@ -103,7 +103,7 @@ class Invoice extends Model
         $this->due_amount = $total;
         $this->paid_amount = 0;
         $this->save();
-        return $this;
+        return $this; */
     }
 
     public function updateBalance()
