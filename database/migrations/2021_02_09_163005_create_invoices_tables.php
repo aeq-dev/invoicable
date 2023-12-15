@@ -15,7 +15,7 @@ class CreateInvoicesTables extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('number');
+            $table->string('number')->nullable();
             $table->string('reference')->nullable();
             $table->morphs('invoicable');
             $table->float('sub_total')->default(0);
@@ -70,7 +70,7 @@ class CreateInvoicesTables extends Migration
 
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('number');
+            $table->string('number')->nullable();
             $table->string('description');
 
             $table->float('amount')->default(0);
