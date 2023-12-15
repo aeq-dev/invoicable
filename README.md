@@ -35,19 +35,19 @@ Next, you must install the service provider if you work with Laravel 5.4:
 You can publish the migration with:
 
 ```bash
-$ php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the invoices and invoice_lines tables by running the migrations:
 
 ```bash
-$ php artisan migrate
+php artisan migrate
 ```
 
 Optionally, you can also publish the `invoicable.php` config file with:
 
 ```bash
-$ php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="config"
 ```
 
 This is what the default config file looks like:
@@ -63,7 +63,7 @@ return [
 If you'd like to override the design of the invoice blade view and pdf, publish the view:
 
 ```bash
-$ php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="views"
+php artisan vendor:publish --provider="Bkfdev\Invoicable\InvoicableServiceProvider" --tag="views"
 ```
 
 You can now edit `receipt.blade.php` in `<project_root>/resources/views/invoicable/receipt.blade.php` to match your style.
