@@ -2,7 +2,7 @@
 
 namespace Bkfdev\Invoicable;
 
-enum InvoiceStatus: string
+enum InvoiceStatusEnum: string
 {
     case PAID = 'paid';
     case UNPAID = 'unpaid';

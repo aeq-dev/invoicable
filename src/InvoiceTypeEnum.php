@@ -2,7 +2,7 @@
 
 namespace Bkfdev\Invoicable;
 
-enum InvoiceType: string
+enum InvoiceTypeEnum: string
 {
     case INVOICE = 'invoice';
     case BILL = 'bill';
