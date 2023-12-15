@@ -2,7 +2,6 @@
 
 namespace Bkfdev\Invoicable\Models;
 
-use App\Models\User;
 use Bkfdev\Invoicable\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Bkfdev\Invoicable\Models\InvoiceLine;
@@ -24,12 +23,12 @@ class Invoice extends Model
 
     public function receiver()
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(config('invoicable.user_model'), 'receiver_id');
     }
 
     public function sender()
     {
-        return $this->belongsTo(User::class, 'sender_id');
+        return $this->belongsTo(config('invoicable.user_model'), 'sender_id');
     }
     public function addAmountExclTax($description, $quantity = 1, $price, $taxPercentage = 0, $discount = 0, $unit = 'unit')
     {
