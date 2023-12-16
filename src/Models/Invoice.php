@@ -71,7 +71,7 @@ class Invoice extends Model
     public function addPayment(
         $description,
         $amount = 0,
-        $receiver_id = null,
+        $customer_id = null,
         $method = null,
         $payment_date = null,
         $currency_id = null,
@@ -83,7 +83,7 @@ class Invoice extends Model
         $this->payments()->create([
             'amount' => $amount,
             'description' => $description,
-            'receiver_id' => $receiver_id,
+            'customer_id' => $customer_id,
             'method' => $method,
             'cheque_number' => $cheque_number,
             'cheque_date' => $cheque_date,
