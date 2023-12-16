@@ -3,28 +3,30 @@
 namespace Bkfdev\Invoicable\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Invoice extends Model
 {
     protected $guarded = [];
     protected $with = ['sender', 'receiver'];
 
-    public function lines()
+    public function lines(): HasMany
     {
         return $this->hasMany(config('invoicable.invoice_line_model'));
     }
 
-    public function payments()
+    public function payments(): HasMany
     {
         return $this->hasMany(config('invoicable.payment_model'));
     }
 
-    public function receiver()
+    public function receiver(): BelongsTo
     {
         return $this->belongsTo(config('invoicable.user_model'), 'receiver_id');
     }
 
-    public function sender()
+    public function sender(): BelongsTo
     {
         return $this->belongsTo(config('invoicable.user_model'), 'sender_id');
     }
@@ -44,7 +46,7 @@ class Invoice extends Model
             'discount' => $discount,
             'total' => $tax + $discounted_amount,
         ]);
-        //return $this->recalculate();
+        return $this->recalculate();
     }
     public function addAmountInclTax($description, $quantity = 1, $price, $taxPercentage = 0, $discount = 0, $unit = 'unit')
     {
@@ -63,7 +65,7 @@ class Invoice extends Model
             'discount' => $discount,
             'total' => $tax + $discounted_amount,
         ]);
-        //return $this->recalculate();
+        return $this->recalculate();
     }
 
     public function addPayment(
@@ -93,8 +95,7 @@ class Invoice extends Model
         return $this->updateBalance();
     }
 
-    // Recalculate every thing from lines
-    public function recalculate1()
+    public function recalculate()
     {
         $total = $this->lines()->sum('total');
         $this->discount = $this->lines()->sum('discount');
@@ -107,20 +108,6 @@ class Invoice extends Model
         return $this;
     }
 
-    // Recalculate only total and sub total from lines
-    public function recalculate2()
-    {
-        $total = $this->lines()->sum('total');
-        $this->sub_total = $this->lines()->sum('sub_total');
-
-        $total = $total - $this->discount + $this->tax;
-        $this->total = $total;
-        $this->due_amount = $total;
-        $this->paid_amount = 0;
-
-        $this->save();
-        return $this;
-    }
     public function updateBalance()
     {
         $this->due_amount = $this->total - $this->payments()->sum('amount');

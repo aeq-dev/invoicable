@@ -2,8 +2,7 @@
 
 namespace Bkfdev\Invoicable;
 
-use Bkfdev\Invoicable\Models\Invoice;
-
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait IsInvoicableTrait
 {
@@ -12,8 +11,8 @@ trait IsInvoicableTrait
      *
      * @return mixed
      */
-    public function invoices()
+    public function invoices(): MorphMany
     {
-        return $this->morphMany(Invoice::class, 'invoicable');
+        return $this->morphMany(config('invoicable.invoice_model'), 'invoicable');
     }
 }
