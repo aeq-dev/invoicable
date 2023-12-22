@@ -37,7 +37,12 @@ class CreateInvoicesTables extends Migration
             $table->unsignedBigInteger('sender_id')->nullable();
             $table->unsignedBigInteger('receiver_id')->nullable();
 
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('invoice_lines', function (Blueprint $table) {
@@ -66,7 +71,12 @@ class CreateInvoicesTables extends Migration
             $table->boolean('default')->default(false);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('payments', function (Blueprint $table) {
@@ -87,7 +97,12 @@ class CreateInvoicesTables extends Migration
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedBigInteger('invoice_id')->nullable();
 
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
