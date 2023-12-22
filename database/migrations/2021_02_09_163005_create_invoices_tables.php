@@ -17,6 +17,7 @@ class CreateInvoicesTables extends Migration
             $table->id();
             $table->string('number')->nullable();
             $table->string('reference')->nullable();
+            $table->string('period')->nullable();
             $table->morphs('invoicable');
             $table->float('sub_total')->default(0);
             $table->float('tax')->default(0);
