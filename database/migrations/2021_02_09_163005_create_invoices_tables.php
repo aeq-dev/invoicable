@@ -29,6 +29,7 @@ class CreateInvoicesTables extends Migration
             $table->float('paid_amount')->default(0);
             $table->date('invoice_date')->nullable();
             $table->date('due_date')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamp('locked_at')->nullable();
             $table->text('note')->nullable();
 
